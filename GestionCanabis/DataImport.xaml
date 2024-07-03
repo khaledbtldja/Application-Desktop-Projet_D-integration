@@ -1,0 +1,334 @@
+﻿<Window x:Class="GestionCanabis.DataImport"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestionCanabis"
+        mc:Ignorable="d"
+        Title="DataImport" Height="550" Width="950"
+        Closed="Window_Closed"
+        MouseDown="Window_MouseDown"
+        >
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Visibility" Value="Hidden"></Setter>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Setter Property="Visibility" Value="Visible"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Green"/>
+            <Setter Property="BorderThickness" Value="1"></Setter>
+            <Setter Property="CaretBrush" Value="White"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Center" ></Setter>
+        </Style>
+        <Style TargetType="RichTextBox">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Green"/>
+            <Setter Property="BorderThickness" Value="1"></Setter>
+            <Setter Property="CaretBrush" Value="White"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Center" ></Setter>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Green"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton Name="ToggleButton" Grid.Column="2" Focusable="False"
+                                  IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                  ClickMode="Press" Background="Transparent" BorderBrush="Green" Foreground="White">
+                                <ToggleButton.Style>
+                                    <Style TargetType="ToggleButton">
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ToggleButton">
+                                                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1">
+                                                        <Path x:Name="Arrow" Fill="{TemplateBinding Foreground}" Data="M 0 0 L 4 4 L 8 0 Z" HorizontalAlignment="Right" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                    <ControlTemplate.Triggers>
+                                                        <Trigger Property="IsChecked" Value="True">
+                                                            <Setter TargetName="Arrow" Property="RenderTransform">
+                                                                <Setter.Value>
+                                                                    <RotateTransform Angle="180"/>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </Trigger>
+                                                    </ControlTemplate.Triggers>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+                            <ContentPresenter Name="ContentSite"
+                                      IsHitTestVisible="False" 
+                                      Content="{TemplateBinding SelectionBoxItem}"
+                                      ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                      ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                      Margin="3,3,23,3"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Left" />
+                            <TextBox x:Name="PART_EditableTextBox"
+                             Style="{x:Null}"
+                             Background="Transparent"
+                             Foreground="White"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Center"
+                             Margin="3,3,23,3"
+                             Focusable="True"
+                             Visibility="Hidden"
+                             IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            <Popup Name="Popup"
+                           Placement="Bottom"
+                           IsOpen="{TemplateBinding IsDropDownOpen}"
+                           AllowsTransparency="True" 
+                           Focusable="False"
+                           PopupAnimation="Slide">
+                                <Grid Name="DropDown"
+                              SnapsToDevicePixels="True"                
+                              MinWidth="{TemplateBinding ActualWidth}"
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border x:Name="DropDownBorder" 
+                                    Background="Transparent"
+                                    BorderBrush="Green"
+                                    BorderThickness="1" />
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasItems" Value="False">
+                                <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Foreground" Value="Gray"/>
+                            </Trigger>
+                            <Trigger Property="IsGrouping" Value="True">
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
+                            </Trigger>
+                            <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="True">
+                                <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="0"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="ComboBoxItem">
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="Green"></Setter>
+                </Trigger>
+            </Style.Triggers>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+        </Style>
+        <Style x:Key="DataGridRowStyle" TargetType="DataGridRow">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding verifier}" Value="false">
+                    <Setter Property="Background" Value="Red" />
+                    <Setter Property="Foreground" Value="White" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding verifier}" Value="true">
+                    <Setter Property="Background" Value="Green" />
+                    <Setter Property="Background" Value="White" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.Background>
+            <SolidColorBrush Color="Black"></SolidColorBrush>
+        </Grid.Background>
+        <Grid>
+            <Grid.Background>
+                <ImageBrush ImageSource="Images/background.png" Stretch="UniformToFill"/>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="255"/>
+                <RowDefinition Height="220"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Margin="0,0,0,0" Background="Transparent">
+                <StackPanel>
+                    <Label Foreground="White" HorizontalAlignment="Center" FontFamily="MontSerrat" FontSize="24" FontWeight="Bold">Liste des Plantes à Importer</Label>
+                    <DataGrid MaxHeight="180" Background="Transparent" x:Name="DataGridP" ItemsSource="{Binding list}" AutoGenerateColumns="False" RowHeight="40">
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderBrush" Value="Green"/>
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                            </Style>
+
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderBrush" Value="Green"/>
+                                <Setter Property="BorderThickness" Value="1"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+
+                            </Style>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Background" Value="Transparent"></Setter>
+                            </Style>
+                            <Style TargetType="DataGridRowHeader">
+                                <Setter Property="Background" Value="Transparent"></Setter>
+                            </Style>
+                            <Style TargetType="ScrollBar">
+                                <Setter Property="Background" Value="Transparent"></Setter>
+                                <Setter Property="Foreground" Value="Green"></Setter>
+                                <Setter Property="BorderBrush" Value="Green"></Setter>
+                                <Setter Property="Height" Value="3"></Setter>
+
+                            </Style>
+                            <Style TargetType="Thumb">
+                                <Setter Property="Background" Value="Green"></Setter>
+                                <Setter Property="Height" Value="3"></Setter>
+                            </Style>
+                            <Style TargetType="RepeatButton">
+                                <Setter Property="Background" Value="Green"></Setter>
+                            </Style>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Verification">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Background" Value="AliceBlue"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding verifier}" Value="false">
+                                                <Setter Property="Background" Value="Red" />
+                                                <Setter Property="Foreground" Value="White" />
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding verifier}" Value="true">
+                                                <Setter Property="Background" Value="Green" />
+                                                <Setter Property="Background" Value="White" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Foreground="White" Header="Etat de Santé" Binding="{Binding ETATDESANTE}">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ETATDESANTE}" Value="PLANTE EN DANGER">
+                                                <Setter Property="Background" Value="Red"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ETATDESANTE}" Value="MAUVAISE SANTE">
+                                                <Setter Property="Background" Value="ORANGE"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ETATDESANTE}" Value="SANTE MOYENNE">
+                                                <Setter Property="Background" Value="YellowGreen"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ETATDESANTE}" Value="BONNE SANTE">
+                                                <Setter Property="Background" Value="Green"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Date Entrée" Binding="{Binding DE}" Foreground="White"/>
+                            <DataGridTextColumn Header="Identification" Binding="{Binding ID}"/>
+                            <DataGridTextColumn Header="Provenance" Binding="{Binding PROVENANCE}"/>
+                            <DataGridTextColumn Header="Description" Binding="{Binding DESCRIPTION}"/>
+                            <DataGridTextColumn Header="Stade" Binding="{Binding STADE}"/>
+                            <DataGridTextColumn Header="Entreposage" Binding="{Binding ENTREPOSAGE}"/>
+                            <DataGridTextColumn Foreground="White" Header="Activité" Binding="{Binding AC}">
+                                <DataGridTextColumn.ElementStyle>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Background" Value="AliceBlue"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding AC}" Value="Inactif">
+                                                <Setter Property="Background" Value="Red"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding AC}" Value="Actif">
+                                                <Setter Property="Background" Value="Green"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGridTextColumn.ElementStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Date Retrait" Binding="{Binding DR}"/>
+                            <DataGridTextColumn Header="Raison de Retrait" Binding="{Binding RAISONDERETRAIT}"/>
+                            <DataGridTextColumn Header="Responsable" Binding="{Binding RESPONSABLE}"/>
+                            <DataGridTextColumn Header="Note" Binding="{Binding NOTE}"/>
+                            <DataGridTemplateColumn Header="Actions">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Cursor="Hand" x:Name="btnmodifier" Content="Modifier" Tag="{Binding Rownumber }" BorderThickness="0" Background="Transparent" Foreground="Orange" Margin="2" Click="btnmodifier_Click"/>
+                                            <Button Cursor="Hand" x:Name="btnsupprimer" Content="Supprimer" Tag="{Binding Rownumber }" BorderThickness="0" Background="Transparent" Foreground="Red" Margin="2" Click="btnsupprimer_Click"/>
+                                            <Button Cursor="Hand" x:Name="btnannulerretrait" Content="Annuler Retrait" Tag="{Binding Rownumber}" BorderThickness="0" Background="Transparent" Foreground="Blue" Margin="2" IsEnabled="{Binding AR}" Click="btnannulerretrait_Click"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0" Background="Transparent">
+                        <Button x:Name="importation" Click="importation_Click" Background="Transparent" BorderBrush="Green" BorderThickness="1" Margin="30,0,30,0" HorizontalAlignment="Center" Foreground="White" Content="Importer" >
+                        </Button>
+                        <ProgressBar x:Name="progressbar" Margin="0,0,0,0" Height="25" Width="100" Background="White"></ProgressBar>
+                    </StackPanel>
+                    
+                </StackPanel>
+            </Border>
+            <Border Grid.Row="1"  Margin="0,25,0,0" Background="Transparent" HorizontalAlignment="Center" BorderBrush="Green" BorderThickness="1" CornerRadius="15">
+                <StackPanel>
+                    <Label HorizontalAlignment="Center" Foreground="White" FontFamily="MontSerrat" FontSize="24" FontWeight="Bold">Correction des données des Plantes</Label>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Foreground="White" FontFamily="MontSerrat">Etat de Santé</Label>
+                        <ComboBox x:Name="ETATDESANTE" Width="100" BorderBrush="Black" BorderThickness="1" Margin="10,0,0,0"></ComboBox>
+                        <Label Foreground="White" FontFamily="MontSerrat" Margin="10,0,0,0">Date Entrée</Label>
+                        <DatePicker x:Name="DATEENTREE" Width="100" BorderBrush="Black" BorderThickness="1" Margin="10,0,0,0"></DatePicker>
+                        <Label Foreground="White" FontFamily="MontSerrat" Margin="10,0,0,0">Provenance</Label>
+                        <TextBox x:Name="PROVENANCE" FontFamily="MontSerrat"  Width="100" Margin="10,0,0,0"></TextBox>
+                        <Label Foreground="White" FontFamily="MontSerrat" Margin="10,0,0,0">Stade</Label>
+                        <ComboBox x:Name="STADE" Width="100" FontFamily="MontSerrat" BorderBrush="Black" BorderThickness="1" Margin="10,0,0,0"></ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Foreground="White" FontFamily="MontSerrat" Margin="0,10,0,0">Description</Label>
+                        <RichTextBox x:Name="DESCRIPTION" Width="110" Margin="10,10,0,0" Height="40"  FontFamily="MontSerrat"></RichTextBox>
+                        <Label Foreground="White" FontFamily="MontSerrat" Margin="10,10,0,0">Entreposage</Label>
+                        <ComboBox x:Name="ENTREPOSAGE" FontFamily="MontSerrat" Width="100" BorderBrush="Black" BorderThickness="1" Margin="10,0,0,0" Height="25"></ComboBox>
+                        <Label Foreground="White" FontFamily="MontSerrat" Margin="10,10,0,0">Activité</Label>
+                        <ComboBox x:Name="ACTIVITE" FontFamily="MontSerrat" Margin="10,0,0,0" Width="100" Height="25"></ComboBox>
+                        <Label Foreground="White" FontFamily="MontSerrat" Margin="10,10,0,0">Responsable</Label>
+                        <ComboBox x:Name="RESPONSABLE" FontFamily="MontSerrat" Width="80" Height="25" Margin="10,0,0,0"></ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Foreground="White" Margin="0,10,0,0" FontFamily="MontSerrat">Date Retrait</Label>
+                        <DatePicker x:Name="DATERETRAIT" FontFamily="MontSerrat" Margin="10,10,0,0" BorderBrush="Black" BorderThickness="1"></DatePicker>
+                        <Label Foreground="White" FontFamily="MontSerrat" Margin="10,10,0,0">Raison de Retrait</Label>
+                        <ComboBox x:Name="RAISONRETRAIT" Width="100" Height="25" Margin="10,10,0,0" FontFamily="MontSerrat"></ComboBox>
+                        <Label Foreground="White" FontFamily="MontSerrat" Margin="10,10,0,0">Note</Label>
+                        <TextBox x:Name="NOTE" FontFamily="MontSerrat" Width="100" Height="25"  Margin="10,10,0,0"></TextBox>
+                        </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="boutonmodification" IsEnabled="False" HorizontalAlignment="Center" Margin="30,10,30,0" Width="60" Height="20" Content="Modifier" Foreground="White" Background="Orange" BorderBrush="Orange" Click="ModifierButton_Click"></Button>
+                        <Button x:Name="annulermodification" IsEnabled="False" HorizontalAlignment="Center" Margin="30,10,30,0" Width="60" Height="20" Content="Annuler" Foreground="White" Background="Red" BorderBrush="Red" Click="annulermodification_Click"></Button>
+                    </StackPanel>
+                    
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>

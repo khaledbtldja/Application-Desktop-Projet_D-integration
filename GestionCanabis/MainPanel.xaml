@@ -1,0 +1,115 @@
+﻿<Window x:Class="GestionCanabis.MainPanel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestionCanabis"
+        mc:Ignorable="d"
+        Title="Gestion Canabis" Height="550" Width="1200"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        MouseDown="Window_MouseDown"
+        WindowStartupLocation="CenterScreen"
+        >
+    <Window.Background>
+        <SolidColorBrush Color="Transparent"></SolidColorBrush>
+    </Window.Background>
+    <Border  BorderBrush="Green" BorderThickness="2" Background="Transparent">
+        <StackPanel>
+            <Grid Background="Black" Height="30" VerticalAlignment="Top" >
+                <Image Source="Images/logo.png" HorizontalAlignment="Left" Width="20"></Image>
+                <Label FontFamily="MontSerrat" Foreground="White" Margin="20,0,0,0">Gestion Canabis</Label>
+                <Button BorderBrush="Transparent" BorderThickness="0" Click="homebutton_Click" x:Name="homebutton" HorizontalAlignment="Center" Width="25" Cursor="Hand">
+                    <Button.Background>
+                        <ImageBrush ImageSource="Images/home.png"></ImageBrush>
+                    </Button.Background>
+                </Button>
+                <Button x:Name="btnClose" BorderThickness="0" Content="X" Foreground="White" FontSize="16" FontFamily="MontSerrat" Cursor="Hand" Click="btnClose_Click" Margin="20,0,0,0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Red">
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Width="18" Height="18" CornerRadius="9" Background="{TemplateBinding Background}">
+                                <ContentPresenter Content="X" VerticalAlignment="Center" HorizontalAlignment="Center"></ContentPresenter>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button x:Name="btnMinimize" BorderThickness="0" Content="-" Foreground="White" FontSize="16" FontFamily="MontSerrat" Cursor="Hand" Click="btnMinimize_Click" Margin="0,0,20,0" HorizontalAlignment="Right">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="Green">
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Width="18" Height="18" CornerRadius="9" Background="{TemplateBinding Background}">
+                                <ContentPresenter Content="-" VerticalAlignment="Center" HorizontalAlignment="Center"></ContentPresenter>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+            <Grid Height="520">
+                <Grid.ColumnDefinitions >
+                    <ColumnDefinition Width="250">
+                        
+                    </ColumnDefinition>
+                    <ColumnDefinition Width="950"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" >
+                    <Grid.Background>
+                        <SolidColorBrush Color="Black"></SolidColorBrush>
+                    </Grid.Background>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Button x:Name="btnAccueil" Grid.Row="2" FontFamily="MontSerrat" Foreground="Green" FontSize="20" Background="Black" Click="Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="Images/import.png" Width="25"></Image>
+                            <Label FontFamily="MontSerrat" Foreground="Green" FontSize="20">Importation</Label>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnGP" Grid.Row="0" FontFamily="MontSerrat" Foreground="Green" FontSize="20" Background="Transparent" Click="Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="Images/plantule.png" Width="25"></Image>
+                            <Label FontFamily="MontSerrat" Foreground="Green" FontSize="20">Gestion Plantules</Label>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnGG" Grid.Row="3" FontFamily="MontSerrat" Foreground="Green" FontSize="20" Background="Transparent" Click="Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="Images/management.png" Width="25"></Image>
+                            <Label FontFamily="MontSerrat" Foreground="Green" FontSize="20">Gestion Générale</Label>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnHistorique" Grid.Row="1"  FontFamily="MontSerrat" Foreground="Green" FontSize="20" Background="Transparent" Click="Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="Images/history.png" Width="25"></Image>
+                            <Label FontFamily="MontSerrat" Foreground="Green" FontSize="20">Historique Plantules</Label>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="btnDeconnexion" Grid.Row="4"  FontFamily="MontSerrat" Foreground="Green" FontSize="20" Background="Transparent" Click="Button_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="Images/logout.png" Width="25"></Image>
+                            <Label FontFamily="MontSerrat" Foreground="Green" FontSize="20">Déconnexion</Label>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+                <Grid Grid.Column="1" Background="Black">
+                    <Frame x:Name="ContentPage" NavigationUIVisibility="Hidden"></Frame>
+                </Grid>
+            </Grid>
+        </StackPanel>
+        
+    </Border>
+</Window>

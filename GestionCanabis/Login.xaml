@@ -1,0 +1,91 @@
+﻿<Window x:Class="GestionCanabis.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GestionCanabis"
+        mc:Ignorable="d"
+        Title="Login" Height="600" Width="300"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        AllowsTransparency="True"
+        MouseDown="Window_MouseDown"
+        >
+    <Window.Background>
+        <SolidColorBrush Color="Transparent" Opacity="0.1"/>
+    </Window.Background>
+    <Window.Resources>
+        <Style x:Key="RoundedTextBoxStyle" TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border
+                                CornerRadius="20" 
+                                BorderBrush="Green" 
+                                BorderThickness="1">
+                            <Border.Background>
+                                <ImageBrush ImageSource="Images/user.png" Stretch="None" AlignmentX="Left" ></ImageBrush>
+                            </Border.Background>
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RoundedPasswordBoxStyle" TargetType="PasswordBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="PasswordBox">
+                        <Border
+                                CornerRadius="20" 
+                                BorderBrush="Green" 
+                                BorderThickness="1">
+                            <Border.Background>
+                                <ImageBrush ImageSource="Images/key.png" Stretch="None" AlignmentX="Left"></ImageBrush>
+                            </Border.Background>
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="RoundedButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="Green" CornerRadius="20" BorderThickness="1" BorderBrush="Green">
+                            <ContentPresenter Content="Login" VerticalAlignment="Center" HorizontalAlignment="Center"></ContentPresenter>
+                        </Border>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Border CornerRadius="50" BorderThickness="0" BorderBrush="Transparent">
+        <Border.Background>
+            <SolidColorBrush Color="Black" Opacity="0.5"></SolidColorBrush>
+        </Border.Background>
+    <Border CornerRadius="50" >
+        <Border.Background>
+            <ImageBrush ImageSource="Images/background.png" Stretch="Fill"></ImageBrush>
+        </Border.Background>
+    <Grid>
+        
+        
+        
+        <Border Background="Transparent"  CornerRadius="50"  >
+            <StackPanel VerticalAlignment="Center">
+                <Image Source="Images/logo.png" Width="50" Height="50" MouseLeftButtonDown="Image_MouseLeftButtonDown"/>
+                <Label Margin="0,20,0,0" FontFamily="MontSerrat" Foreground="White" FontSize="20" HorizontalAlignment="Center" Content="Gestion"></Label>
+                <Label Margin="0,0,0,0" FontFamily="MontSerrat" Foreground="White" FontSize="20" HorizontalAlignment="Center" Content="Canabis"></Label>
+                <TextBox KeyDown="un_KeyDown" FontFamily="MontSerrat" FontSize="16" TextAlignment="Center" Foreground="White" x:Name="un" Style="{StaticResource RoundedTextBoxStyle}" Width="200" Margin="0,20,0,10" Padding="10" Height="40" CaretBrush="White"/>
+                <PasswordBox KeyDown="pwd_KeyDown" FontFamily="MontSerrat" FontSize="16" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White" x:Name="pwd" Style="{StaticResource RoundedPasswordBoxStyle}" Width="200" Margin="0,10,0,20" Padding="10" Height="40" CaretBrush="White"/>
+                <Button Cursor="Hand" Style="{StaticResource RoundedButtonStyle}" Content="Login" Background="Green" Foreground="White" Width="100" Padding="10" Height="40" Click="Button_Click"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+    </Border>
+    </Border>
+</Window>

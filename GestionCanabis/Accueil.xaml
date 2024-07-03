@@ -1,0 +1,84 @@
+﻿<Page x:Class="GestionCanabis.Accueil"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GestionCanabis"
+      mc:Ignorable="d" 
+      d:DesignHeight="550" d:DesignWidth="950"
+      Title="Accueil">
+
+    <Border Background="Black">
+        <Grid >
+            <Grid.Background>
+                <ImageBrush ImageSource="Images/background.png" Stretch="Fill"></ImageBrush>
+            </Grid.Background>
+            <StackPanel VerticalAlignment="Center" Margin="0,0,0,60">
+                <Label Margin="0,0,0,0" Content="Bonjour" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="MontSerrat" FontSize="40" FontWeight="Bold" Foreground="White"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Label Foreground="White" FontFamily="MontSerrat" Margin="0,20,0,0" FontSize="16">
+                        Plantes Totales :
+                    </Label>
+                    <Label Foreground="White" FontFamily="MontSerrat" Margin="0,20,0,0" FontSize="16" x:Name="total">
+
+                    </Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label Foreground="White" FontFamily="MontSerrat" Margin="0,20,0,0" FontSize="16">
+                            Plantes Actives :
+                        </Label>
+                        <Label Foreground="Green" FontFamily="MontSerrat" Margin="0,20,0,0" FontSize="16" x:Name="pa">
+
+                        </Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label Foreground="White" FontFamily="MontSerrat" Margin="0,20,0,0" FontSize="16">
+                            Plantes Inctives :
+                        </Label>
+                        <Label Foreground="Red" FontFamily="MontSerrat" Margin="0,20,0,0" FontSize="16" x:Name="pi">
+
+                        </Label>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label Foreground="White" FontFamily="MontSerrat" Margin="0,20,0,0" FontSize="16">
+                            Plantes En Bonne Santé :
+                        </Label>
+                        <Label Foreground="Green" FontFamily="MontSerrat" Margin="0,20,0,0" FontSize="16" x:Name="pbs">
+
+                        </Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label Foreground="White" FontFamily="MontSerrat" Margin="0,20,0,0" FontSize="16">
+                            Plantes En Santé Moyenne :
+                        </Label>
+                        <Label Foreground="YellowGreen" FontFamily="MontSerrat" Margin="0,20,0,0" FontSize="16" x:Name="psm">
+
+                        </Label>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label Foreground="White" FontFamily="MontSerrat" Margin="0,20,0,0" FontSize="16">
+                            Plantes En Mauvaise Santé :
+                        </Label>
+                        <Label Foreground="Orange" FontFamily="MontSerrat" Margin="0,20,0,0" FontSize="16" x:Name="pms">
+
+                        </Label>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Label Foreground="White" FontFamily="MontSerrat" Margin="0,20,0,0" FontSize="16">
+                            Plantes En Danger :
+                        </Label>
+                        <Label Foreground="Red" FontFamily="MontSerrat" Margin="0,20,0,0" FontSize="16" x:Name="ped">
+
+                        </Label>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Border>
+    
+</Page>

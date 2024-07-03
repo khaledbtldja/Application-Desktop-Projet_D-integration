@@ -1,0 +1,20 @@
+﻿GestionCanabis
+
+
+winexe
+C#
+.cs
+D:\GestionCanabis (1)\GestionCanabis\GestionCanabis\obj\Debug\net8.0-windows\
+GestionCanabis
+none
+false
+TRACE;DEBUG;NET;NET8_0;NETCOREAPP
+D:\GestionCanabis (1)\GestionCanabis\GestionCanabis\App.xaml
+141193124001
+1-320686414
+24-1419284499
+244-1308851918
+Accueil.xaml;DataImport.xaml;GE.xaml;GestionGenerale.xaml;GestionPlantules.xaml;GR.xaml;GT.xaml;GU.xaml;Historique.xaml;Importation.xaml;Login.xaml;MainPanel.xaml;PasswordPrompt.xaml;PDFViewerWindow.xaml;
+
+False
+

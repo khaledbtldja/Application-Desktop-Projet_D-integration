@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="DataImport.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="GE.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="GestionGenerale.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="GestionPlantules.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="GR.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="GT.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="GU.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Historique.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Importation.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MainPanel.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="PasswordPrompt.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="PDFViewerWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Accueil.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DataImport.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GE.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GestionGenerale.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GestionPlantules.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GR.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GT.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GU.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Historique.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Importation.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Login.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MainPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PasswordPrompt.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="PDFViewerWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>
