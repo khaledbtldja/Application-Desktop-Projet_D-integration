@@ -30,11 +30,11 @@ namespace GestionCanabis
         //Initialize values
         private void Initialize()
         {
-            server = "mysql-ea2707-mohamedtaleb123456-9c14.aivencloud.com";
+            server = "localhost";
             database = "gestioncanabis";
-            uid = "avnadmin";
-            password = "AVNS_crD7FiLrzkR1SAFLsIq";
-            var connString = "Server=" + server + ";User ID=" + uid + ";Password=" + password + ";Database=" + database+";Port=14499;SSL Mode=Required;";
+            uid = "root";
+            password = "13091997KHA.";
+            var connString = "Server=" + server + ";User ID=" + uid + ";Password=" + password + ";Database=" + database+";Port=3306;SSL Mode=Required;";
             
 
             Connection = new MySqlConnection(connString);

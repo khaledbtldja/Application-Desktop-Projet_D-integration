@@ -20,6 +20,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Windows.Media.Animation;
+using AForge.Video;
+using AForge.Video.DirectShow;
+using ZXing;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace GestionCanabis
 {
@@ -28,6 +33,9 @@ namespace GestionCanabis
     /// </summary>
     public partial class Historique : Page
     {
+        private bool iscamerarunning = false;
+        private FilterInfoCollection videoDevices;
+        private VideoCaptureDevice videoSource;
         List<HistoriqueP> listh;
         List<string> listt;
         private DBConnect db;
@@ -79,75 +87,67 @@ namespace GestionCanabis
 
         private void startCamera_Click(object sender, RoutedEventArgs e)
         {
-            if (!isCameraRunning)
+            if (!iscamerarunning)
             {
-                capture = new VideoCapture(0);
-                frame = new Mat();
-                isCameraRunning = true;
-                
-                timer = new DispatcherTimer();
-                timer.Tick += new EventHandler(FPS);
-                timer.Tick += new EventHandler(CaptureFrame);
-                timer.Interval = TimeSpan.FromMilliseconds(30);
-                timer.Start();
-            }
-        }
-        private async void FPS(object sender, EventArgs e)
-        {
-            try
-            {
-                if (capture.IsOpened())
+                videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+                if (videoDevices.Count > 0)
                 {
-                    capture.Read(frame);
-                    CameraFeed.Source = BitmapToImageSource(frame.ToBitmap());
+                    videoSource = new VideoCaptureDevice(videoDevices[0].MonikerString);
+                    videoSource.NewFrame += new NewFrameEventHandler(FPS);
+                    videoSource.Start();
                 }
-            }catch(Exception exc)
+                else
+                {
+                    MessageBox.Show("No video devices found.");
+                }
+            }
+            else
             {
-
+                videoSource.Stop();
             }
         }
-        private void CaptureFrame(object sender, EventArgs e)
+        private async void FPS(object sender, NewFrameEventArgs eventArgs)
         {
-            if (capture.IsOpened())
+            Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
+            BitmapImage bitmapImage = BitmapToBitmapImage(bitmap);
+            this.Dispatcher.Invoke(() => CameraFeed.Source = bitmapImage);
+
+            string result="";
+            this.Dispatcher.Invoke(() => result = BarcodeReader.QuicklyReadOneBarcode(bitmap, BarcodeEncoding.QRCode).Text);
+            if (result != "")
             {
-                if (!frame.Empty())
+                listh = db.listh("SELECT * from HISTORIQUE WHERE CHANGEMENT LIKE '%" + result + "%'");
+
+                if (listh.Count == 0)
                 {
+                    MessageBox.Show("Plante Inexistante!");
+                }
+                else
+                {
+                    isCameraRunning = false;
+                    capture = null;
                     image = frame.ToBitmap();
-                    var result = BarcodeReader.QuicklyReadOneBarcode(image, BarcodeEncoding.QRCode);
-                    if (result != null)
+                    frame = null;
+                    foreach (HistoriqueP hp in listh)
                     {
-                        timer.Stop();
-                        listh = db.listh("SELECT * from HISTORIQUE WHERE CHANGEMENT LIKE '%" + result+ "%'");
-
-                        if (listh.Count == 0)
-                        {
-                            MessageBox.Show("Plante Inexistante!");
-                        }
-                        else
-                        {
-                            isCameraRunning = false;
-                            capture = null;
-                            image = frame.ToBitmap();
-                            frame = null;
-                            foreach (HistoriqueP hp in listh)
-                            {
-                                listt.Add(hp.text());
-                            }
-                            TextBlocksItemsControl.Items.Clear();
-                            TextBlocksItemsControl.ItemsSource = null;
-                            TextBlocksItemsControl.ItemsSource = listt;
-                        }
+                        listt.Add(hp.text());
                     }
+                    TextBlocksItemsControl.ItemsSource = null;
+                    TextBlocksItemsControl.Items.Clear();
+                    TextBlocksItemsControl.ItemsSource = null;
+                    TextBlocksItemsControl.ItemsSource = listt;
                 }
             }
+
+            bitmap.Dispose();
         }
-        private BitmapImage BitmapToImageSource(Bitmap bitmap)
+        private BitmapImage BitmapToBitmapImage(Bitmap bitmap)
         {
-            using (var memory = new System.IO.MemoryStream())
+            using (MemoryStream memory = new MemoryStream())
             {
-                bitmap.Save(memory, System.Drawing.Imaging.ImageFormat.Bmp);
+                bitmap.Save(memory, ImageFormat.Bmp);
                 memory.Position = 0;
-                var bitmapImage = new BitmapImage();
+                BitmapImage bitmapImage = new BitmapImage();
                 bitmapImage.BeginInit();
                 bitmapImage.StreamSource = memory;
                 bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
@@ -155,6 +155,8 @@ namespace GestionCanabis
                 return bitmapImage;
             }
         }
+        
+        
         private void Border_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Border border = sender as Border;
